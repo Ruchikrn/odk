@@ -10,7 +10,7 @@ import Dataset4 from '../Dataset4/Dataset4';
 
 const moment = require('moment')
 
-export const Dashboard = ({graphWidth}) => {
+export const Dashboard = ({ graphWidth }) => {
   const [data, setData] = useState()
   const [data1, setData1] = useState()
   const [data2, setData2] = useState()
@@ -22,11 +22,11 @@ export const Dashboard = ({graphWidth}) => {
   useEffect(() => {
     let dismount = false
     const requestOptions = {
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        mode: 'cors'
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      mode: 'cors'
     }
 
     const getRequestBeCount = async () => {
@@ -73,62 +73,63 @@ export const Dashboard = ({graphWidth}) => {
   return (
     <div>
       <div className='topContainer'>
-          <div className="onsite_box">
-            <div className="box_big">
-              No. of Onsite Clinical Coaching Mentoring Conducted ({data + data1})
-            </div>
-            <div className="box_container">
-              <div className="box">
-                  BC/BEONC
-                  <div className="dash-count">
-                    {data}
-                  </div>
-              </div>
-              <div className="box" style={{marginLeft: 2}}>
-                  CEONC
-                  <div className="dash-count">
-                    {data1}
-                  </div>
-              </div>
-            </div>
+        <div className="onsite_box">
+          <div className="box_big">
+            No. of Onsite Clinical Coaching Mentoring Conducted ({data + data1})
           </div>
-          <div className="box">
-              No. of Hospitals Implementing Robson Classification
+          <div className="box_container">
+            <div className="box">
+              BC/BEONC
               <div className="dash-count">
-                {data2}
+                {data}
               </div>
+            </div>
+            <div className="box" style={{ marginLeft: 2 }}>
+              CEONC
+              <div className="dash-count">
+                {data1}
+              </div>
+            </div>
           </div>
-          <div className="box">
-              Date
-              <DatePicker
-                className="select-date"
-                startDate={startDate}
-                endDate={endDate}
-                selectsRange={true}
-                isClearable={true}
-                onChange={(dates) => {
-                  setDateRange(dates)
-                }}
-              />
+        </div>
+        <div className="box">
+          No. of Hospitals Implementing Robson Classification
+          <div className="dash-count">
+            {data2}
           </div>
-          <div className="box search-button" onClick={() => {
-            setDataNew("all")
-            setDataTypeNew({
-              "startDate": startDate ? moment(startDate).format("YYYY-MM-DD") : "",
-              "endDate": endDate ? moment(endDate).format("YYYY-MM-DD") : "",
-              "province": "",
-              "district": "",
-              "palika": "",
-              "facility": ""
-            })
-          }}
-          >
-            Search
-          </div>
+        </div>
+        <div className="box">
+          Date
+          <DatePicker
+            className="select-date"
+            startDate={startDate}
+            endDate={endDate}
+            selectsRange={true}
+            isClearable={true}
+            onChange={(dates) => {
+              setDateRange(dates)
+            }}
+            showMonthYearPicker
+          />
+        </div>
+        <div className="box search-button" onClick={() => {
+          setDataNew("all")
+          setDataTypeNew({
+            "startDate": startDate ? moment(startDate).format("YYYY-MM-DD") : "",
+            "endDate": endDate ? moment(endDate).format("YYYY-MM-DD") : "",
+            "province": "",
+            "district": "",
+            "palika": "",
+            "facility": ""
+          })
+        }}
+        >
+          Search
+        </div>
       </div>
-      <Dataset1 graphWidth={graphWidth} data={dataNew} dataType={dataTypeNew} location="dashboard"/>
-      <Dataset3 graphWidth={graphWidth} data={dataNew} dataType={dataTypeNew} location="dashboard"/>
-      <Dataset4 graphWidth={graphWidth} data={dataNew} dataType={dataTypeNew} location="dashboard"/>
+      <Dataset1 graphWidth={graphWidth} data={dataNew} dataType={dataTypeNew} location="dashboard" />
+      <Dataset3 graphWidth={graphWidth} data={dataNew} dataType={dataTypeNew} location="dashboard" />
+      <Dataset4 graphWidth={graphWidth} data={dataNew} dataType={dataTypeNew} location="dashboard" />
     </div>
   )
 }

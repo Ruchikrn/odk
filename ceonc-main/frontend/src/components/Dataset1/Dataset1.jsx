@@ -12,7 +12,7 @@ import { host } from '../../utils';
 
 const moment = require('moment')
 
-const Dataset1 = ({graphWidth, data, dataType, location}) => {
+const Dataset1 = ({ graphWidth, data, dataType, location }) => {
   const [dataNew, setDataNew] = useState()
   const [dataTypeNew, setDataTypeNew] = useState()
   const [dataSortProvince, setDataSortProvince] = useState()
@@ -30,11 +30,11 @@ const Dataset1 = ({graphWidth, data, dataType, location}) => {
   useEffect(() => {
     let dismount = false
     const requestOptions = {
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        mode: 'cors'
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      mode: 'cors'
     }
 
     const getRequestPalikaProvince = async () => {
@@ -44,7 +44,7 @@ const Dataset1 = ({graphWidth, data, dataType, location}) => {
       if (!dismount) {
         if (res.ok) {
           setDataSortPalikaProvince(data)
-          setDataSortProvince(nameSort(data, "", "province")) 
+          setDataSortProvince(nameSort(data, "", "province"))
         }
       }
     }
@@ -74,8 +74,8 @@ const Dataset1 = ({graphWidth, data, dataType, location}) => {
   return (
     <div>
       {location === "nav"
-      ? (
-        <div className='topContainer'>
+        ? (
+          <div className='topContainer'>
             {/* <div className="box">
                 Year
                 <Select 
@@ -105,71 +105,72 @@ const Dataset1 = ({graphWidth, data, dataType, location}) => {
                 />
             </div> */}
             <div className="box">
-                Date
-                <DatePicker
-                  className="select-date"
-                  startDate={startDate}
-                  endDate={endDate}
-                  selectsRange={true}
-                  isClearable={true}
-                  onChange={(dates) => {
-                    setDateRange(dates)
-                  }}
-                />
+              Date
+              <DatePicker
+                className="select-date"
+                startDate={startDate}
+                endDate={endDate}
+                selectsRange={true}
+                isClearable={true}
+                onChange={(dates) => {
+                  setDateRange(dates)
+                }}
+                showMonthYearPicker
+              />
             </div>
             <div className="box">
-                Province
-                <Select 
-                  className="select-dropdown" 
-                  options={ dataSortProvince }
-                  value={value1}
-                  onChange={(option) => {
-                    setValue2("")
-                    setValue3("")
-                    setValue4("")
-                    setValue1(option)
-                    palikaSelector(option, "province")
-                  }}
-                />
+              Province
+              <Select
+                className="select-dropdown"
+                options={dataSortProvince}
+                value={value1}
+                onChange={(option) => {
+                  setValue2("")
+                  setValue3("")
+                  setValue4("")
+                  setValue1(option)
+                  palikaSelector(option, "province")
+                }}
+              />
             </div>
             <div className="box">
-                District
-                <Select 
-                  className="select-dropdown" 
-                  options={ dataSortDistrict }
-                  value={value2}
-                  onChange={(option) => {
-                    setValue3("")
-                    setValue4("")
-                    setValue2(option)
-                    palikaSelector(option, "district")
-                  }}
-                />
+              District
+              <Select
+                className="select-dropdown"
+                options={dataSortDistrict}
+                value={value2}
+                onChange={(option) => {
+                  setValue3("")
+                  setValue4("")
+                  setValue2(option)
+                  palikaSelector(option, "district")
+                }}
+              />
             </div>
             <div className="box">
-                Municipality
-                <Select 
-                  className="select-dropdown" 
-                  options={ dataSortPalika }
-                  value={value3}
-                  onChange={(option) => {
-                    setValue4("")
-                    setValue3(option)
-                    palikaSelector(option, "palika")
-                  }}
-                />
+              Municipality
+              <Select
+                className="select-dropdown"
+                options={dataSortPalika}
+                value={value3}
+                onChange={(option) => {
+                  setValue4("")
+                  setValue3(option)
+                  palikaSelector(option, "palika")
+                }}
+              />
             </div>
             <div className="box">
-                Name of Health Facility
-                <Select 
-                  className="select-dropdown" 
-                  options={ dataSortFacility }
-                  value={value4}
-                  onChange={(option) => {
-                    setValue4(option)
-                    palikaSelector(option, "facility")
-                  }}
-                />
+              Name of Health Facility
+              <Select
+                className="select-dropdown"
+                options={dataSortFacility}
+                value={value4}
+                onChange={(option) => {
+                  setValue4(option)
+                  palikaSelector(option, "facility")
+                }}
+              />
             </div>
             <div className="box search-button" onClick={() => {
               setDataNew("all")
@@ -185,32 +186,32 @@ const Dataset1 = ({graphWidth, data, dataType, location}) => {
             >
               Search
             </div>
-        </div>
-      ): null
+          </div>
+        ) : null
       }
-        <h1 className="text-center header-color">Quality Improvement Process Reporting</h1>
-        <div className="graphItemsContainer">
-          {location === "nav"
-            ? (
-                <div className="graphItemContainer">
-                    <BcQualityDomain graphWidth={graphWidth} data1={data || dataNew} dataType1={dataType || dataTypeNew}/>
-                </div>
-            ):null
-          }
-          <div className="graphItemContainer">
-              <BcSignalFunction graphWidth={graphWidth} data2={data || dataNew} dataType2={dataType || dataTypeNew}/>
-          </div>
-          {location === "nav"
-            ? (
-                <div className="graphItemContainer">
-                    <CeoncQualityDomain graphWidth={graphWidth} data3={data || dataNew} dataType3={dataType || dataTypeNew}/>
-                </div>
-            ):null
-          }
-          <div className="graphItemContainer">
-              <CeoncSignalFunction graphWidth={graphWidth} data4={data || dataNew} dataType4={dataType || dataTypeNew}/>
-          </div>
+      <h1 className="text-center header-color">Quality Improvement Process Reporting</h1>
+      <div className="graphItemsContainer">
+        {location === "nav"
+          ? (
+            <div className="graphItemContainer">
+              <BcQualityDomain graphWidth={graphWidth} data1={data || dataNew} dataType1={dataType || dataTypeNew} />
+            </div>
+          ) : null
+        }
+        <div className="graphItemContainer">
+          <BcSignalFunction graphWidth={graphWidth} data2={data || dataNew} dataType2={dataType || dataTypeNew} />
         </div>
+        {location === "nav"
+          ? (
+            <div className="graphItemContainer">
+              <CeoncQualityDomain graphWidth={graphWidth} data3={data || dataNew} dataType3={dataType || dataTypeNew} />
+            </div>
+          ) : null
+        }
+        <div className="graphItemContainer">
+          <CeoncSignalFunction graphWidth={graphWidth} data4={data || dataNew} dataType4={dataType || dataTypeNew} />
+        </div>
+      </div>
     </div>
   )
 }
