@@ -89,6 +89,19 @@ const Dataset1 = ({ graphWidth, data, dataType, location }) => {
     }
   }
 
+  const searchClickHandler = (value) => {
+    console.log("search value:::", value)
+    setDataNew("all")
+    setDataTypeNew({
+      "startDate": startDate ? moment(startDate).format("YYYY-MM-DD") : "",
+      "endDate": endDate ? moment(endDate).format("YYYY-MM-DD") : "",
+      "province": value1["label"] ? value1["label"] : "",
+      "district": value2["label"] ? value2["label"] : "",
+      "palika": value3["label"] ? value3["label"] : "",
+      "facility": value4["label"] ? value4["label"] : ""
+    })
+  }
+
   return (
     <div>
       {location === "nav"
@@ -190,17 +203,7 @@ const Dataset1 = ({ graphWidth, data, dataType, location }) => {
                 }}
               />
             </div>
-            <div className="box search-button" onClick={() => {
-              setDataNew("all")
-              setDataTypeNew({
-                "startDate": startDate ? moment(startDate).format("YYYY-MM-DD") : "",
-                "endDate": endDate ? moment(endDate).format("YYYY-MM-DD") : "",
-                "province": value1["label"] ? value1["label"] : "",
-                "district": value2["label"] ? value2["label"] : "",
-                "palika": value3["label"] ? value3["label"] : "",
-                "facility": value4["label"] ? value4["label"] : ""
-              })
-            }}
+            <div className="box search-button" onClick={searchClickHandler}
             >
               Search
             </div>

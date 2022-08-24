@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import {
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend
 } from "recharts";
 import { dynamicGraph } from '../../utils/dynamicGraph';
 import { host } from '../../utils';
 
 import { color } from '../color';
 
-const HFImplement = ({graphWidth, data, dataType}) => {
+const HFImplement = ({ graphWidth, data, dataType, setValue, searchClickHandler, dataSortProvince }) => {
   const [hfImplement, setHfImplement] = useState([])
   const [dataSort, setDataSort] = useState([])
-
+  console.log("data::::::: ", dataType)
   let filterType = "default"
 
   if (data === "year") {
@@ -32,14 +32,16 @@ const HFImplement = ({graphWidth, data, dataType}) => {
   }
 
   const requestOptions = {
-      method: 'GET',
-      headers: {
-          "Content-Type": "application/json",
-      },
-      mode: 'cors'
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    mode: 'cors'
   }
 
   useEffect(() => {
+    console.log("data::::::: ", dataType)
+
     let dismount = false
     const getRequest = async () => {
       let res = await fetch(`${host}/hf`, requestOptions)
@@ -55,19 +57,19 @@ const HFImplement = ({graphWidth, data, dataType}) => {
     const getRequestYear = async () => {
       if (filterType === "all") {
         let requestOptionsBody = {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              "startDate": dataType["startDate"],
-              "endDate": dataType["endDate"],
-              "province": dataType["province"] === "All" ? "" : dataType["province"],
-              "district": dataType["district"] === "All" ? "" : dataType["district"],
-              "palika": dataType["palika"] === "All" ? "" : dataType["palika"],
-              "facility": dataType["facility"] === "All" ? "" : dataType["facility"]
-            }), 
-            mode: 'cors'
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            "startDate": dataType["startDate"],
+            "endDate": dataType["endDate"],
+            "province": dataType["province"] === "All" ? "" : dataType["province"],
+            "district": dataType["district"] === "All" ? "" : dataType["district"],
+            "palika": dataType["palika"] === "All" ? "" : dataType["palika"],
+            "facility": dataType["facility"] === "All" ? "" : dataType["facility"]
+          }),
+          mode: 'cors'
         }
 
         let res = await fetch(`${host}/hf/filter`, requestOptionsBody)
@@ -79,44 +81,45 @@ const HFImplement = ({graphWidth, data, dataType}) => {
           }
         }
       }
-    //   if (filterType === "province") {
-    //       let res = await fetch('/hf/province', requestOptions)
-    //       let data = await res.json()
+      //   if (filterType === "province") {
+      //       let res = await fetch('/hf/province', requestOptions)
+      //       let data = await res.json()
 
-    //       if (!dismount) {
-    //         if (res.ok) {
-    //           setDataSort(data)
-    //         }
-    //       }
-    //   } else if (filterType === "palika") {
-    //       let res = await fetch('/hf/palika', requestOptions)
-    //       let data = await res.json()
+      //       if (!dismount) {
+      //         if (res.ok) {
+      //           setDataSort(data)
+      //         }
+      //       }
+      //   } else if (filterType === "palika") {
+      //       let res = await fetch('/hf/palika', requestOptions)
+      //       let data = await res.json()
 
-    //       if (!dismount) {
-    //         if (res.ok) {
-    //           setDataSort(data)
-    //         }
-    //       }
-    //   } else if (filterType === "all") {
-    //       let res = await fetch('/hf/all', requestOptions)
-    //       let data = await res.json()
+      //       if (!dismount) {
+      //         if (res.ok) {
+      //           setDataSort(data)
+      //         }
+      //       }
+      //   } else if (filterType === "all") {
+      //       let res = await fetch('/hf/all', requestOptions)
+      //       let data = await res.json()
 
-    //       if (!dismount) {
-    //         if (res.ok) {
-    //           setDataSort(data)
-    //         }
-    //       }
-    //   } else if (filterType === "month") {
-    //       let res = await fetch('/hf/month', requestOptions)
-    //       let data = await res.json()
+      //       if (!dismount) {
+      //         if (res.ok) {
+      //           setDataSort(data)
+      //         }
+      //       }
+      //   } else if (filterType === "month") {
+      //       let res = await fetch('/hf/month', requestOptions)
+      //       let data = await res.json()
 
-    //       if (!dismount) {
-    //         if (res.ok) {
-    //           setDataSort(data)
-    //         }
-    //       }
-    //   }
+      //       if (!dismount) {
+      //         if (res.ok) {
+      //           setDataSort(data)
+      //         }
+      //       }
+      //   }
     }
+
 
     getRequest()
     getRequestYear()
@@ -125,6 +128,13 @@ const HFImplement = ({graphWidth, data, dataType}) => {
     }
   }, [dataType])
 
+  const provinceSelectOnChangehandler = (value) => {
+    setValue(value);
+    searchClickHandler();
+
+  }
+
+  console.log("data--------: ", data);
   if (filterType !== "default") {
     return (
       <div className='graphItems'>
@@ -135,6 +145,7 @@ const HFImplement = ({graphWidth, data, dataType}) => {
               <div>
                 <p className="text-center header-color">No. of Clinical Coaching Mentoring Conducted</p>
               </div>
+
               <BarChart
                 width={dynamicGraph(graphWidth)}
                 height={500}
@@ -159,6 +170,7 @@ const HFImplement = ({graphWidth, data, dataType}) => {
         <div>
           <p className="text-center header-color">No. of Clinical Coaching Mentoring Conducted</p>
         </div>
+
         <BarChart
           width={dynamicGraph(graphWidth)}
           height={500}
